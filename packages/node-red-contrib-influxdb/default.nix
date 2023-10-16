@@ -21,12 +21,13 @@
   };
 
   nodejs-package-lock = {
-    source = config.deps.fetchFromGitHub {
-      owner = "mblackstock";
-      repo = "node-red-contrib-influxdb";
-      rev = "0.6.1";
-      sha256 = "sha256-tPtj1TzV1sa7/bRBw/w0mGHjuchB4wwhqvlyU+X0hK8=";
-    };
+    source = ./.;
+#    source = config.deps.fetchFromGitHub {
+#      owner = "mblackstock";
+#      repo = "node-red-contrib-influxdb";
+#      rev = "0.6.1";
+#      sha256 = "sha256-tPtj1TzV1sa7/bRBw/w0mGHjuchB4wwhqvlyU+X0hK8=";
+#    };
   };
 
   name = "node-red-contrib-influxdb";
