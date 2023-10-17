@@ -62,7 +62,7 @@
         defaults: {
             hostname: {value: "127.0.0.1", required: true},
             port: {value: 8086, required: true},            
-			protocol: {value: "http", required: true},
+            protocol: {value: "http", required: true},
             database: {value: "database",
                 validate:function(db) {
                     let version = getVersion();
@@ -72,10 +72,10 @@
                     return true;
                 }
             },
-            name: {value: ""},
+            name: {value: "ming"},
             usetls: {value: false},
             tls: {type:"tls-config",required: false},
-            influxdbVersion: {value: "1.x", required: false},
+            influxdbVersion: {value: "2.0", required: false},
             url: {value: "http://localhost:8086",
                 validate:function(url) {
                     let version = getVersion();

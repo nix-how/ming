@@ -1,4 +1,5 @@
 var _ = require('lodash');
+const fs = require("fs");
 
 module.exports = function (RED) {
     "use strict";
@@ -53,10 +54,28 @@ module.exports = function (RED) {
                 password: this.credentials.password
             });
         } else if (n.influxdbVersion === VERSION_18_FLUX || n.influxdbVersion === VERSION_20) {
-
-            const token = n.influxdbVersion === VERSION_18_FLUX ?
+            var token = n.influxdbVersion === VERSION_18_FLUX ?
                 `${this.credentials.username}:${this.credentials.password}` :
                 this.credentials.token;
+
+            var url = n.url;
+            if (!token) {
+                console.log("Token is blank, loading in from file:");
+                token = process.env.MING_NODERED_INFLUXDB_TOKEN_FILE;
+
+                // The default (http://localhost:8086) is given in influxdb.html 
+                // and so is not configurable.  The duplicate specification of port and
+                // hostname is because that was the format used in v1.x,
+                // however only url is used in v2.0.
+                url = process.env.MING_NODERED_INFLUXDB_URL;
+                console.log(token);
+                try {
+                    token = fs.readFileSync(process.env.MING_NODERED_INFLUXDB_TOKEN_FILE, 'utf8');
+                    console.log(token);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
 
             clientOptions = {
                 url: n.url,

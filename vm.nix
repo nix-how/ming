@@ -18,6 +18,12 @@
   networking = {
     firewall.allowedTCPPorts = [ 1883 ];
   };
+  systemd.services.node-red.environment = {
+    #MING_NODERED_INFLUXDB_PORT = "8086";
+    #MING_NODERED_INFLUXDB_ADDRESS = "localhost";
+    MING_NODERED_INFLUXDB_URL = "http://localhost:8086";
+    MING_NODERED_INFLUXDB_TOKEN_FILE = "/run/super-secret-place";
+  };
   systemd.tmpfiles.rules = [
     "L+ ${config.services.node-red.userDir}/node_modules 0755 ${config.services.node-red.user} ${config.services.node-red.group} - ${node-red-contrib-influxdb}/lib/node_modules"
   ];
