@@ -18,9 +18,35 @@
   networking = {
     firewall.allowedTCPPorts = [ 1883 ];
   };
+  systemd.services.node-red.preStart = let
+    baseFlowsJsonFile = builtins.toFile "flows.json" baseFlowsJson;
+    baseFlowsJson = builtins.toJSON {
+      id = "32deae1cf6a499f8";
+      type = "influxdb";
+      hostname = "127.0.0.1";
+      port = "8086";
+      protocol = "http";
+      database = "database";
+      name = "ming";
+      usetls = "false";
+      tls = "";
+      influxdbVersion = "2.0";
+      url = "http://localhost:8086";
+      rejectUnauthorized = true;
+    };
+  in
+  ''
+    if [ ! -d "${config.services.node-red.userDir}/flows.json" ]
+    then
+      ${pkgs.jq}/bin/jq -s '.' < ${baseFlowsJsonFile} > ${config.services.node-red.userDir}/flows.json
+    else
+      ${pkgs.jq}/bin/jq --slurpfile new_values ${baseFlowsJsonFile} 'map(if .id == "32deae1cf6a499f8" then . += $new_values[0] else . end)' ${config.services.node-red.userDir}/flows.json
+    fi
+  '';
   systemd.tmpfiles.rules = [
     "L+ ${config.services.node-red.userDir}/node_modules 0755 ${config.services.node-red.user} ${config.services.node-red.group} - ${node-red-contrib-influxdb}/lib/node_modules"
   ];
+
   services = {
     grafana = {
       enable = true;
