@@ -141,6 +141,10 @@
                 $("#node-config-row-token").show();
                 $("#node-config-row-rejectUnauthorized").show();   
                 $("#node-config-row-enableSecureConnection").hide();  
+
+                $("#node-input-row-org").hide();
+                $("#node-input-row-bucket").hide();           
+                $("#node-input-influxdb").parent().parent().hide();
             }
 
             $("#node-config-input-influxdbVersion").change(function () {
@@ -362,6 +366,10 @@
                 $("#node-input-row-precisionV18FluxV20").show();
                 $("#node-input-row-retentionPolicyV18Flux").hide();
                 $("#node-warning-retention-policy").hide();
+
+                $("#node-input-row-org").hide();
+                $("#node-input-row-bucket").hide();
+                $("#node-input-influxdb").parent().parent().hide();
             }
 
             $("#node-input-influxdb").change(function () {
