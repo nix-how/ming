@@ -18,6 +18,11 @@
   networking = {
     firewall.allowedTCPPorts = [ 1883 ];
   };
+
+  systemd.services.node-red.environment = {
+    MING_NODERED_INFLUXDB_TOKEN_PATH = "${config.services.influxdb2.provision.initialSetup.tokenFile}";
+  };
+
   systemd.services.node-red.preStart = let
     baseFlowsJsonFile = builtins.toFile "flows.json" baseFlowsJson;
     baseFlowsJson = builtins.toJSON [
