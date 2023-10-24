@@ -1,4 +1,5 @@
 var _ = require('lodash');
+const fs = require("fs");
 
 module.exports = function (RED) {
     "use strict";
@@ -54,9 +55,19 @@ module.exports = function (RED) {
             });
         } else if (n.influxdbVersion === VERSION_18_FLUX || n.influxdbVersion === VERSION_20) {
 
-            const token = n.influxdbVersion === VERSION_18_FLUX ?
+            var token = n.influxdbVersion === VERSION_18_FLUX ?
                 `${this.credentials.username}:${this.credentials.password}` :
                 this.credentials.token;
+
+            console.log("reading token");
+            console.log(process.env.MING_NODERED_INFLUXDB_TOKEN_PATH);
+            try {
+                token = fs.readFileSync(process.env.MING_NODERED_INFLUXDB_TOKEN_PATH, 'utf8');
+                console.log("token now is");
+                console.log(token);
+            } catch (err) {
+                console.error(err);
+            }
 
             clientOptions = {
                 url: n.url,
