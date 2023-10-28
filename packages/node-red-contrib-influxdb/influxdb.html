@@ -53,6 +53,8 @@
 </script>
 
 <script type="text/javascript">
+    const hidenixconfiguredstate = true;
+    
     function getVersion() {
         return $("#node-config-input-influxdbVersion option:selected").val();
     }
@@ -142,9 +144,11 @@
                 $("#node-config-row-rejectUnauthorized").show();   
                 $("#node-config-row-enableSecureConnection").hide();  
 
-                $("#node-input-row-org").hide();
-                $("#node-input-row-bucket").hide();           
-                $("#node-input-influxdb").parent().parent().hide();
+                if (hidenixconfiguredstate) {
+                    $("#node-input-row-org").hide();
+                    $("#node-input-row-bucket").hide();           
+                    $("#node-input-influxdb").parent().parent().hide();
+                }
             }
 
             $("#node-config-input-influxdbVersion").change(function () {
@@ -367,9 +371,11 @@
                 $("#node-input-row-retentionPolicyV18Flux").hide();
                 $("#node-warning-retention-policy").hide();
 
-                $("#node-input-row-org").hide();
-                $("#node-input-row-bucket").hide();
-                $("#node-input-influxdb").parent().parent().hide();
+                if (hidenixconfiguredstate) {
+                    $("#node-input-row-org").hide();
+                    $("#node-input-row-bucket").hide();
+                    $("#node-input-influxdb").parent().parent().hide();
+                }
             }
 
             $("#node-input-influxdb").change(function () {
@@ -554,6 +560,12 @@
                 $("#node-input-row-precisionV18FluxV20").show();
                 $("#node-input-row-retentionPolicyV18Flux").hide();
                 $("#node-warning-retention-policy").hide();
+
+                if (hidenixconfiguredstate) {
+                    $("#node-input-row-org").hide();
+                    $("#node-input-row-bucket").hide();           
+                    $("#node-input-influxdb").parent().parent().hide();
+                }
             }
             $("#node-input-influxdb").change(function () {
                 switch (selectedVersion()) {
@@ -740,6 +752,12 @@
             function update20Options() {
                 $("#node-input-row-org").show();
                 $("#node-input-row-extras").hide();
+
+                if (hidenixconfiguredstate) {
+                    $("#node-input-row-org").hide();
+                    $("#node-input-influxdb").parent().parent().hide();
+                }
+
             }
 
             $("#node-input-influxdb").change(function () {
