@@ -21,6 +21,8 @@
 
   systemd.services.node-red.environment = {
     MING_NODERED_INFLUXDB_TOKEN_PATH = "${config.services.influxdb2.provision.initialSetup.tokenFile}";
+    MING_NODERED_INFLUXDB_ORGANISATION = "ming";
+    MING_NODERED_INFLUXDB_BUCKET = "ming";
   };
 
   systemd.services.node-red.preStart = let
