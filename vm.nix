@@ -21,8 +21,8 @@
 
   systemd.services.node-red.environment = {
     MING_NODERED_INFLUXDB_TOKEN_PATH = "${config.services.influxdb2.provision.initialSetup.tokenFile}";
-    MING_NODERED_INFLUXDB_ORGANISATION = "ming";
-    MING_NODERED_INFLUXDB_BUCKET = "ming";
+    MING_NODERED_INFLUXDB_ORG = "mingOrg";
+    MING_NODERED_INFLUXDB_BUCKET = "mingBucket";
   };
 
   systemd.services.node-red.preStart = let
@@ -119,7 +119,7 @@
           passwordFile = pkgs.writeText "admin-pw" "ExAmPl3PA55W0rD";
           tokenFile = pkgs.writeText "admin-token" "verysecureadmintoken";
         };
-        organizations.ming = {
+        organizations.mingOrg = {
           buckets.mingBucket = {
             retention = 2592000; # 30 Days
           };

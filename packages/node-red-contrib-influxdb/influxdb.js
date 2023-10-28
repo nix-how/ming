@@ -1,6 +1,8 @@
 var _ = require('lodash');
 const fs = require("fs");
 
+const logmingchanges = true;
+
 module.exports = function (RED) {
     "use strict";
     var Influx = require('influx');
@@ -59,12 +61,12 @@ module.exports = function (RED) {
                 `${this.credentials.username}:${this.credentials.password}` :
                 this.credentials.token;
 
-            console.log("reading token");
-            console.log(process.env.MING_NODERED_INFLUXDB_TOKEN_PATH);
+            if (logmingchanges) 
+                console.log("reading influxconfignode token: "+process.env.MING_NODERED_INFLUXDB_TOKEN_PATH);
             try {
                 token = fs.readFileSync(process.env.MING_NODERED_INFLUXDB_TOKEN_PATH, 'utf8');
-                console.log("token now is");
-                console.log(token);
+                if (logmingchanges) 
+                    console.log("token now is: "+token);
             } catch (err) {
                 console.error(err);
             }
@@ -203,8 +205,16 @@ module.exports = function (RED) {
         this.database = n.database;
         this.precisionV18FluxV20 = n.precisionV18FluxV20;
         this.retentionPolicyV18Flux = n.retentionPolicyV18Flux;
+
         this.org = n.org;
         this.bucket = n.bucket;
+
+        this.org = process.env.MING_NODERED_INFLUXDB_ORG;
+        this.bucket = process.env.MING_NODERED_INFLUXDB_BUCKET;
+        if (logmingchanges) {
+            console.log("Overriding influxoutnode org from: "+n.org+" to: "+this.org)
+            console.log("Overriding influxoutnode bucket from: "+n.bucket+" to: "+this.bucket)
+        }
 
         if (!this.influxdbConfig) {
             this.error(RED._("influxdb.errors.missingconfig"));
@@ -339,6 +349,12 @@ module.exports = function (RED) {
         this.org = n.org;
         this.bucket = n.bucket;
 
+        this.org = process.env.MING_NODERED_INFLUXDB_ORG;
+        this.bucket = process.env.MING_NODERED_INFLUXDB_BUCKET;
+        if (logmingchanges) {
+            console.log("Overriding influxbatchnode org from: "+n.org+" to: "+this.org)
+            console.log("Overriding influxbatchnode bucket from: "+n.bucket+" to: "+this.bucket)
+        }
 
         if (!this.influxdbConfig) {
             this.error(RED._("influxdb.errors.missingconfig"));
@@ -431,6 +447,11 @@ module.exports = function (RED) {
         this.influxdbConfig = RED.nodes.getNode(this.influxdb);
         this.org = n.org;
 
+        this.org = process.env.MING_NODERED_INFLUXDB_ORG;
+        if (logmingchanges) {
+            console.log("Overriding influxinnode org from: "+n.org+" to: "+this.org)
+        }
+        
         if (!this.influxdbConfig) {
             this.error(RED._("influxdb.errors.missingconfig"));
             return;
