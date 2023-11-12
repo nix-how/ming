@@ -94,6 +94,22 @@
   services = {
     grafana = {
       enable = true;
+      provision.enable = true;
+        provision.datasources.settings = {
+          apiVersion = 1;
+          datasources = [{
+            name = "ming_influxdb";
+            type = "influxdb";
+            uid = "influxdb2";
+            access = "proxy";
+            url = "http://localhost:8086";
+            isDefault = true;
+            jsonData.version = "Flux";
+            jsonData.organization = "mingOrg";
+            jsonData.defaultBucket = "mingBucket";
+            secureJsonData.token = "$__file{${config.services.influxdb2.provision.initialSetup.tokenFile}}";
+          }];
+        };
       settings = {
         analytics.reporting_enabled = false;
         server = {
